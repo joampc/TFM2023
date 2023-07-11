@@ -21,9 +21,9 @@ El repositorio está estructurado de la siguiente manera:
    |- ...
 |- notebooks/
    |- ScrappingWeb.ipynb
-   |- preprocesamiento.ipynb
-   |- entrenamiento_modelo.ipynb
-   |- evaluación_modelo.ipynb
+   |- 
+   |- 
+   |- 
 |- src/
    |- utils.py
    |- data_preprocessing.py
