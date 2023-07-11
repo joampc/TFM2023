@@ -20,7 +20,7 @@ El repositorio está estructurado de la siguiente manera:
    |- model_2.py
    |- ...
 |- notebooks/
-   |- exploración_datos.ipynb
+   |- ScrappingWeb.ipynb
    |- preprocesamiento.ipynb
    |- entrenamiento_modelo.ipynb
    |- evaluación_modelo.ipynb
