@@ -24,8 +24,8 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/_redirects"
+              "src/assets"
+              
             ],
             "styles": [
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
