@@ -1,0 +1,22 @@
+<div class="container">
+  <h2>Ingredients</h2>
+  <div class="form-group">
+    <label for="search">Search Ingredients:</label>
+    <input
+      id="search"
+      type="text"
+      class="form-control"
+      [(ngModel)]="searchTerm"
+      (input)="onInputChange($event)"
+    />
+  </div>
+  <ul class="ingredient-list">
+    <li *ngFor="let ingredient of searchResults">
+      <a (click)="onIngredientSelected(ingredient)">{{ ingredient }}</a>
+    </li>
+  </ul>
+  <div class="selected-ingredient">
+    <h3>Selected Ingredient:</h3>
+    <p>{{ selectedIngredient }}</p>
+  </div>
+</div>

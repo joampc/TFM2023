@@ -1,0 +1,111 @@
+.wide-input {
+    width: 500px;
+    align-items: center;
+  }
+
+  .multi-line-chips {
+    max-width: 500px;
+    flex-wrap: wrap;
+  }
+
+  .full-width {
+    width: 500px;
+    margin-top: 15px;
+    align-items: center;
+  }
+
+  .temperature {
+    
+    margin-top: 20px;
+   
+  }
+
+  .equal-width {
+    flex: 1;
+  }
+
+  .centered-label {
+    display: block;
+    text-align: left;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 26px;
+  }
+  
+  .button-gen {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .recipe-card {
+    width: 500px; /* Ancho deseado */
+    margin-top: 20px; /* Para centrar horizontalmente en la página */
+    /* Otros estilos personalizados según tus preferencias */
+  }
+
+  /* Estilos CSS para cada nivel de temperatura */
+ .temperature-lightest {
+  background-color: #FFECB3 !important; /* Color de fondo más claro */
+  color: #000; /* Color de texto */
+}
+
+.temperature-light{
+  background-color: #FFD54F !important; /* Color de fondo más claro */
+  color: #000; /* Color de texto */
+}
+
+ .temperature-dark {
+  background-color: #FFC107 !important; /* Color de fondo más oscuro */
+  color: #fff; /* Color de texto */
+}
+
+.temperature-darkest {
+  background-color: #FF8F00 !important; /* Color de fondo más oscuro */
+ /* color: #fff;  Color de texto */
+}
+
+
+.spinner-container {
+  display: flex;
+  margin-top: 16px;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  height: 100%; /* Opcional: ajusta la altura según sea necesario */
+  /* Agrega cualquier otro estilo que desees */
+}
+
+.recipe-title {
+  font-family: 'Roboto', sans-serif; /* Fuente de Material Design */
+  font-size: 2.0rem; /* Tamaño del texto */
+  color: #ff5733; /* Color naranja para el título */
+  text-align: center; /* Centrar el texto */
+  margin-bottom: 20px; /* Espacio inferior */
+  animation: fadeInUp 1s ease-in-out; /* Animación de entrada */
+
+  /* Agrega sombra para dar profundidad */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación fadeInUp */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.container {
+  max-width: 1200px; /* Tamaño máximo del container */
+  margin: 0 auto; /* Centra horizontalmente */
+  padding: 20px; /* Espacio interno */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+  background-color: #fbf4dc; /* Color de fondo */
+}
