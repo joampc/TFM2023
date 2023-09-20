@@ -7,7 +7,7 @@ import { IngredientsComponent } from './ingredients/ingredients.component';
 const routes: Routes = [
   { path: '', redirectTo: '/generator', pathMatch: 'full' },
   { path: 'generator', component: RecipeGeneratorComponent },
-  { path: 'ingredients', component: IngredientsComponent },
+  // { path: 'ingredients', component: IngredientsComponent },
   
 ];
 

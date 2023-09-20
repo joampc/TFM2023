@@ -9,8 +9,13 @@ import {  map } from 'rxjs/operators';
 import { takeWhileInclusive } from 'rxjs-take-while-inclusive';
 import { IngredientService } from '../ingredient.service';
 import { ProjectInfoComponent } from '../project-info/project-info.component';
+import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
+
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SettingsService } from '../settings.service';
+import {TooltipPosition} from '@angular/material/tooltip';
+
 
 
 
@@ -26,6 +31,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 export class RecipeGeneratorComponent implements OnInit {
 
   @ViewChild('chipSet') chipSet: ElementRef | undefined;
+  useMarianModel: boolean = false;
 
 
 // Define las traducciones para las etiquetas y textos
@@ -72,6 +78,7 @@ translations = {
               private recipeService: RecipeService,
               private ingredientService: IngredientService,
               public dialog: MatDialog,
+              private settingsService: SettingsService
               ) 
               {
     this.recipeForm = this.formBuilder.group({
@@ -83,6 +90,9 @@ translations = {
   }
 
   ngOnInit(): void {
+    this.settingsService.getUseMarianModel().subscribe(useMarianModel => {
+      this.useMarianModel = useMarianModel;
+    });
     this.ingredientService.selectedIngredients$.subscribe(ingredients => {
       this.selectedIngredients = ingredients;
     });
@@ -124,7 +134,10 @@ translations = {
           this.recipeGenerated = true;
           this.recipetemperature = data.temperature;
           if (isSpanishMode) {
-            this.getTranslatedStepsGoogle(this.generatedRecipe);
+            if (!this.useMarianModel)
+            {this.getTranslatedStepsGoogle(this.generatedRecipe);}
+            else
+            {this.getTranslatedSteps(this.generatedRecipe);}
           }
         },
         (error) => {
@@ -139,8 +152,12 @@ translations = {
 
 
   removeIngredient(ingredient: any): void {
-    console.log(ingredient)
-    this.ingredientService.removeIngredient(ingredient);
+     this.ingredientService.removeIngredient(ingredient);
+     this.generatedRecipe = '';
+    this.translatedSteps = [];
+    this.recipeGenerated = false;
+
+
   }
 
 
@@ -194,7 +211,7 @@ translations = {
         const time = generatedRecipe.substring(timeIndex, levelIndex).trim();
         const level = generatedRecipe.substring(levelIndex + 2).trim(); // +2 para omitir '⚖️'
         this.time = time;
-        console.log(this.time)
+        
         this.level = level;
   
         return { steps: filteredSteps, time, level };
@@ -208,6 +225,7 @@ translations = {
 
 
   getTranslatedSteps(generatedRecipe: string): void {
+    console.log('tranlationMarian')
     if (this.recipeForm.get('isSpanishMode')?.value) {
       //const stepsInEnglish: string[] = this.getRecipeSteps(generatedRecipe);
       const { steps, time, level } = this.getRecipeSteps(generatedRecipe);
@@ -225,12 +243,21 @@ translations = {
 
 
   getTranslatedStepsGoogle(generatedRecipe: string): void {
+    console.log('tranlationGoogle')
     if (this.recipeForm.get('isSpanishMode')?.value) {
       //const stepsInEnglish: string[] = this.getRecipeSteps(generatedRecipe);
       const { steps, time, level } = this.getRecipeSteps(generatedRecipe);
       const translatedStepsObservables: Observable<string>[] = steps.map((step) =>
         this.recipeService.translateTextGoogle(step).pipe(
-          map((translationResponse: any) => translationResponse.trans)
+          map((translationResponse: any) => {
+            // Verifica si la traducción fue exitosa
+            if (translationResponse && translationResponse.trans) {
+              return translationResponse.trans; // Utiliza la traducción si está disponible
+            } else {
+              return step; // Mantén el paso en inglés si no hay traducción
+            }
+          })
+
         )
       );
 
@@ -270,7 +297,6 @@ translations = {
     }
   }
   getLevelBadgeText(): string {
-    console.log(this.level)
     if (this.level.toLowerCase().includes('bajo')) {
       return 'LOW';
     } else if (this.level.toLowerCase().includes('medio')) {
@@ -291,9 +317,15 @@ translations = {
   }
 
 
+  openSettingsDialog(): void {
+    const dialogRef = this.dialog.open(SettingsDialogComponent, {
+      width: '400px' // Tamaño del diálogo
+    });
+
+
 
   }
   
-
+}
 
 

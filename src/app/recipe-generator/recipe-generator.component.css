@@ -24,15 +24,15 @@
     font-weight: bold;
     color: #673ab7;
   }
-  
+
   .slide-toggle-right {
     /* Puedes ajustar el espacio entre el toggle y la etiqueta aquí */
     margin-right: 10px; /* Agrega espacio entre la etiqueta y el toggle */
-    
-  }
-  
 
- 
+  }
+
+
+
 
 /* En tu archivo de estilos personalizado (styles.css o styles.scss) */
 .selected-ingredient {
@@ -49,7 +49,7 @@
     border-radius: 5px;
     border-color: #e0e0e0;
   }
-  
+
   .form-group.temperature {
     margin-top: 20px;
     display: flex;
@@ -58,11 +58,11 @@
     justify-content: center;
     text-align: center;
   }
-  
+
   .form-group.temperature label {
     margin-bottom: 10px; /* Ajusta la cantidad de espacio deseada */
   }
-  
+
 
   .equal-width {
     width: 90px; /* Ajusta el ancho automáticamente según el contenido */
@@ -78,13 +78,13 @@
     justify-content: center;
     margin-top: 26px;
   }
-  
+
   .button-gen {
     display: inline-flex;
     align-items: center;
   }
 
- 
+
 
   /* Estilos CSS para cada nivel de temperatura */
  .temperature-lightest {
@@ -108,15 +108,6 @@
 }
 
 
-.spinner-container {
-  display: flex;
-  margin-top: 16px;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  height: 100%; /* Opcional: ajusta la altura según sea necesario */
-  /* Agrega cualquier otro estilo que desees */
-}
-
 .recipe-title {
   font-family: 'Roboto', sans-serif; /* Fuente de Material Design */
   font-size: 2.0rem; /* Tamaño del texto */
@@ -128,7 +119,7 @@
   /* Agrega sombra para dar profundidad */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
-  
+
 }
 
 /* Animación fadeInUp */
@@ -148,6 +139,7 @@
   margin-top: 20px; /* Para centrar horizontalmente en la página */
   display: flex;
  justify-content: space-between;
+ flex-direction: column;
 }
 
 .card-content {
@@ -155,20 +147,23 @@
   justify-content: space-between;
 }
 
-
+.recipetext {
+  margin-bottom: 20px; /* Espacio entre recipetext y badge-container */
+  /* Resto de estilos para recipetext */
+}
 .badge-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
-.tempbadge  { 
+.tempbadge  {
   /*margin-bottom: 20px;  Ajusta este valor según tus necesidades */
   margin-top: 10px;
   margin-bottom: 10px;
   margin-right: 10px;
 }
-.new-badge  { 
- 
+.new-badge  {
+
   position: relative; /* Agrega esta línea para permitir el posicionamiento relativo */
   margin-top: 15px;
  /* margin-bottom: 60px;  Ajusta este valor según tus necesidades */
@@ -185,12 +180,12 @@
   font-size: 10px;
   background: white;
   color: black;
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  margin-left:-30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left:-22px;
   margin-top:15px;
- 
+
 }
 .tempbadge .mat-badge-content {
   width: 40px;
@@ -209,7 +204,7 @@
   display: flex;
   align-items: flex-end;
 
- 
+
 }
 
 .new-badge .mat-badge-content {
@@ -248,7 +243,7 @@
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
   background-color: #fbf4dc; /* Color de fondo */
-} 
+}
 
 
 .form-container {
@@ -260,7 +255,7 @@
 .container{
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   height: 100vh;
   padding-top: 150px;
 }
@@ -270,10 +265,98 @@
   right: 5px !important;
   color: gray;
 }
+
+.settings-icon {
+  position: absolute;
+  top: 5px !important;
+  right: 35px !important;
+  color: gray;
+}
+
 @media (max-width: 600px) {
   .recipetext {
       margin-bottom: 20px;
   }
 }
 
+.spinner-container {
+  display: flex;
+  margin-top: 20px;
+  justify-content: center; /* Centrar horizontalmente */
+  align-items: center; /* Centrar verticalmente */
+  height: 100%; /* Opcional: ajusta la altura según sea necesario */
+  /* Agrega cualquier otro estilo que desees */
+}
 
+
+/* loader */
+h2 {
+  color: #673ab7;
+  margin: 0;
+  font: 1em verdana;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  text-align: center;
+  /* align-items: center; */ 
+}
+
+
+
+
+/*
+ * Loading Dots
+ * Can we use pseudo elements here instead :after?
+ */
+.loading span {
+  display: inline-block;
+  vertical-align: middle;
+  width: .8em;
+  height: .8em;
+  margin: .14em;
+  background: #007DB6;
+  border-radius: .6em;
+  animation: loading 1s infinite alternate;
+}
+
+/*
+ * Dots Colors
+ * Smarter targeting vs nth-of-type?
+ */
+.loading span:nth-of-type(2) {
+  background: #008FB2;
+  animation-delay: 0.2s;
+}
+.loading span:nth-of-type(3) {
+  background: #009B9E;
+  animation-delay: 0.4s;
+}
+.loading span:nth-of-type(4) {
+  background: #00A77D;
+  animation-delay: 0.6s;
+}
+.loading span:nth-of-type(5) {
+  background: #00B247;
+  animation-delay: 0.8s;
+}
+.loading span:nth-of-type(6) {
+  background: #5AB027;
+  animation-delay: 1.0s;
+}
+.loading span:nth-of-type(7) {
+  background: #A0B61E;
+  animation-delay: 1.2s;
+}
+
+/*
+ * Animation keyframes
+ * Use transition opacity instead of keyframes?
+ */
+@keyframes loading {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

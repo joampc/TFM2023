@@ -3,6 +3,7 @@
   
   
     <button mat-icon-button class = "info-icon" (click)="openDialog()"><mat-icon>info</mat-icon></button>
+    <button mat-icon-button class = "settings-icon" (click)="openSettingsDialog()"><mat-icon>settings</mat-icon></button>
   
 
   <form [formGroup]="recipeForm" (ngSubmit)="generateRecipe()" class="form-container">
@@ -44,12 +45,19 @@
     </div>
   </form>
 
-  <!-- Spinner de carga -->
-  <div class="spinner-container">
-    <mat-spinner *ngIf="isLoading" [diameter]="50" mode="indeterminate" color="primary"></mat-spinner>
-  </div>
-
-
+<div class="spinner-container">
+      <div *ngIf="isLoading" class="loading">
+        <h2> {{ recipeForm?.get('isSpanishMode')?.value ? "cocinando" : "cooking" }}</h2>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+  
+</div>  
 
 
 

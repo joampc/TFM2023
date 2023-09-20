@@ -1,0 +1,54 @@
+.custom-dialog-title {
+    text-align: center;
+    border-bottom: 1px solid #ccc; /* Línea gris debajo del título */
+  }
+
+  /* settings-dialog.component.css */
+.mat-dialog-title .mat-dialog-title-close {
+    display: none; /* Oculta el botón de cierre predeterminado */
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #ccc;
+  }
+
+  /* settings-dialog.component.css */
+.description-text {
+    font-size: 14px; /* Tamaño de fuente más pequeño */
+    font-style: italic; /* Texto en cursiva */
+    color: #666; /* Color gris */
+  }
+  
+  .toggle-label {
+    font-weight: bold; /* Texto en negrita */
+  }
+
+  /* settings-dialog.component.css */
+.center-button {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Cambia el color de fondo y el color del texto del botón */
+  .save-button {
+    background-color: #983ef2; /* Color primario */
+    color: white !important; /* Color del texto en blanco */
+    font-weight: bold; /* Texto en negrita */
+    padding: 10px 20px; /* Espaciado interno para el botón */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: background-color 0.3s ease; /* Transición de color de fondo */
+  }
+  
+  /* Cambia el color de fondo del botón al pasar el cursor */
+  .save-button:hover {
+    background-color: #673ab7; /* Color primario más oscuro al pasar el cursor */
+  }
+
+
+  

@@ -6,6 +6,12 @@ import { takeWhileInclusive } from 'rxjs-take-while-inclusive';
 import { RecipeService } from '../recipe.service';
 import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { ThisReceiver } from '@angular/compiler';
+import { SettingsService } from '../settings.service';
+import { Subscription } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+
+
 
 
 
@@ -35,7 +41,9 @@ export class IngredientsComponent implements OnInit {
   ingredientes: any[] = [];
 
   constructor(private ingredientService: IngredientService, 
-              private recipeService: RecipeService) {}
+              private recipeService: RecipeService,
+              private settingsService: SettingsService,
+              private snackBar: MatSnackBar) {}
 
   translations = {
     en: {
@@ -60,6 +68,9 @@ export class IngredientsComponent implements OnInit {
   finalPage: number | undefined;
 
   allIngredients: any[] = []; // Almacena todos los ingredientes de todas las páginas
+  orderAlphabetically: boolean | undefined;
+
+  private settingsSubscription: Subscription | undefined;
 
   
 
@@ -102,16 +113,21 @@ export class IngredientsComponent implements OnInit {
           map((ingredientes) => {
             const newIngredients = ingredientes.filter(ing => !this.allIngredients.includes(ing));
             this.allIngredients = [...this.allIngredients, ...newIngredients];
+            //
             return { ingredientes: newIngredients };
           })
         );
       })
     );
 
-    this.filteredLookups$?.subscribe((data) => {
-    });
+   
   }
-  
+
+
+
+
+
+
   displayWith(lookup: ILookup): string {
     return lookup ? lookup.Ingrediente : '';
   }
@@ -143,20 +159,16 @@ addSelectedIngredient(event: MatAutocompleteSelectedEvent): void {
       : ingredient.Ingrediente === selectedIngredientName
   );
 
-  // if (selectedIngredient) {
-  //   this.ingredientService.selectedIngredients$.pipe(take(1)).subscribe((selectedIngredients) => {
-  //     const isIngredientAlreadySelected = selectedIngredients.some((ingredient) =>
-  //       this.isSpanishMode
-  //         ? ingredient.spanishName === selectedIngredient.T_Marian
-  //         : ingredient.name === selectedIngredient.Ingrediente
-  //     );
+ 
   if (selectedIngredient) {
     this.ingredientService.selectedIngredients$.pipe(take(1)).subscribe((selectedIngredients) => {
       // Verificar si ya se han seleccionado 4 ingredientes
       if (selectedIngredients.length >= 4) {
-        console.log('Ya se han seleccionado 4 ingredientes. No se pueden agregar más.');
-        return;
-      }
+        this.snackBar.open('Ya se han seleccionado 4 ingredientes.', '', {
+          duration: 3000, // Duración en milisegundos (5 segundos en este caso)
+        });
+        this.searchText.setValue('');
+        return;}
 
       const isIngredientAlreadySelected = selectedIngredients.some((ingredient) =>
         this.isSpanishMode
@@ -174,9 +186,11 @@ addSelectedIngredient(event: MatAutocompleteSelectedEvent): void {
 
         // Limpiar el campo de búsqueda
         this.searchText.setValue('');
+        
         this.autocompleteTrigger.updatePosition();
       } else {
-        console.log('El ingrediente ya está seleccionado.');
+        this.searchText.setValue('');
+        // console.log('El ingrediente ya está seleccionado.');
       }
     });
   }

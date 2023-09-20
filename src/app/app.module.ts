@@ -28,6 +28,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {OptionsScrollDirective} from './options-scroll.directive';
 import { ProjectInfoComponent } from './project-info/project-info.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SettingsDialogComponent } from './settings-dialog/settings-dialog.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -39,6 +42,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     IngredientsComponent,
     OptionsScrollDirective,
     ProjectInfoComponent,
+    SettingsDialogComponent,
     
     
    
@@ -64,7 +68,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatPaginatorModule,
     MatSlideToggleModule,
     InfiniteScrollModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule
 
     
     
