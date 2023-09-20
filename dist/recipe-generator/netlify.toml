@@ -1,0 +1,10 @@
+[[redirects]]
+  from = "/generator"
+  to = "https://recipes-gen-z4hma5gvja-no.a.run.app"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"

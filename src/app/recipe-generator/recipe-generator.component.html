@@ -1,91 +1,119 @@
-<div style="display: flex; justify-content: center; align-items: flex-start; height: 100vh; padding-top: 150px;">
-
-    <div class="container">
-    <h2 class="recipe-title">AI Recipe Generator</h2>
-
-    <form [formGroup]="recipeForm" (ngSubmit)="generateRecipe()">
-      <div class="form-group">
-        <mat-form-field appearance="fill" class="wide-input">
-          <mat-label>Select Ingredients</mat-label>
-          <input matInput [formControl]="ingredientCtrl" [matAutocomplete]="auto"  (keydown.enter)="onEnter($event)">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayIngredient" (optionSelected)="onIngredientSelected($event)">
-            <mat-option *ngFor="let ingredient of filteredIngredients | async" [value]="ingredient">
-              {{ ingredient }}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </div>
-
-    <mat-chip-set
-    class="multi-line-chips"
-    cdkDropList 
-    cdkDropListOrientation="horizontal">
-    <mat-chip
-      class="example-box"
-      cdkDrag
-      *ngFor="let ingredient of selectedIngredients"
-      (removed)="removeIngredient(ingredient)"
-      >
-      {{ingredient}}
-      <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
-  </mat-chip-set>
-
-
-      <div class="form-group temperature">
-        
-        <label class="centered-label">Select Temperature:</label>
-        
-
-        <mat-chip-listbox formControlName="temperature" >
-        <mat-chip-option *ngFor="let option of temperatureOptions" 
-          [value]="option" class="equal-width" 
-              [style.background-color]="getTemperatureColor(option)" 
-          >
-            {{ option }}
-            </mat-chip-option>
-        
-      </mat-chip-listbox>
-
-      </div>
-
-      <div class="button-container">
-        <button mat-fab extended color="primary" type="submit" [disabled]="!recipeForm.valid" class="button-gen">
-          <mat-icon>restaurant</mat-icon>
-          Generate Recipe
-        </button>
-      </div>
-
-   
-    </form>
+<div class="box-container">
+  <h2 class="recipe-title">AI Recipe Generator</h2>
   
- <!-- Muestra el MatProgressSpinner cuando isLoading es verdadero -->
- <div class="spinner-container">
-  <mat-spinner *ngIf="isLoading" [diameter]="50" mode="indeterminate" color="primary"  ></mat-spinner> 
- </div>
+  
+    <button mat-icon-button class = "info-icon" (click)="openDialog()"><mat-icon>info</mat-icon></button>
+  
 
-    <mat-card class="recipe-card">
-      <mat-card-header>
-        <mat-card-title></mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <!-- <p>{{ generatedRecipe }}</p> -->
-        <mat-card-content>
-          <p>Ingredients:</p>
-          <ul>
-            <li *ngFor="let ingredient of selectedIngredients">{{ ingredient }}</li>
-          </ul>
-          <h3>Steps:</h3>
-          <ol>
-            <li *ngFor="let step of getRecipeSteps(generatedRecipe)">{{ step }}</li>
-          </ol>
-        </mat-card-content>
-        
+  <form [formGroup]="recipeForm" (ngSubmit)="generateRecipe()" class="form-container">
+    <!-- select idioma-->
+    <div class="language-toggle">
+      <span class="language-label" [ngClass]="{'bold-label': !recipeForm.get('isSpanishMode')?.value}">En</span>
+      <mat-slide-toggle formControlName="isSpanishMode" labelPosition="before" color="primary" class="slide-toggle-right" (change)="toggleLanguage()">
+      </mat-slide-toggle>
+      <span class="language-label" [ngClass]="{'bold-label': recipeForm.get('isSpanishMode')?.value}">Es</span>
+    </div>
+    
+    <app-ingredients  [isSpanishMode]="recipeForm.get('isSpanishMode')?.value"></app-ingredients>
 
-      </mat-card-content>
-    </mat-card>
+    <!-- Chips para ingredientes seleccionados -->
+    <mat-chip-set class="multi-line-chips" cdkDropList cdkDropListOrientation="horizontal" #chipSet>
+      <mat-chip class="ingredient-chip" cdkDrag *ngFor="let ingredient of selectedIngredients" (removed)="removeIngredient(ingredient)">
+        {{ recipeForm?.get('isSpanishMode')?.value ? ingredient.spanishName : ingredient.name }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-set>
     
 
-
+    <!-- Selección de temperatura -->
+    <div class="form-group temperature">
+      <label class="centered-label">{{ translations[recipeForm.get('isSpanishMode')?.value ? 'es' : 'en'].selectTemperature }}</label>
+      <mat-chip-listbox formControlName="temperature">
+        <mat-chip-option *ngFor="let option of temperatureOptions" [value]="option" class="equal-width" [style.background-color]="getTemperatureColor(option)">
+          {{ option }}
+        </mat-chip-option>
+      </mat-chip-listbox>
     </div>
+
+    <!-- Botón de generación de receta -->
+    <div class="button-container">
+      <button mat-fab extended color="primary" type="submit" [disabled]="!recipeForm.valid || selectedIngredients.length === 0" class="button-gen">
+        <mat-icon>restaurant</mat-icon>
+        {{ translations[recipeForm.get('isSpanishMode')?.value ? 'es' : 'en'].submitButton }}
+      </button>
+    </div>
+  </form>
+
+  <!-- Spinner de carga -->
+  <div class="spinner-container">
+    <mat-spinner *ngIf="isLoading" [diameter]="50" mode="indeterminate" color="primary"></mat-spinner>
   </div>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Tarjeta de receta generada -->
+   
+
+  <mat-card class="recipe-card">
+    <mat-card-header>
+     
+    </mat-card-header>
+    
+    <mat-card-content class="card-content">
+ 
+    <div class = "recipetext">
+        <p>{{ translations[recipeForm.get('isSpanishMode')?.value ? 'es' : 'en'].ingredients }}</p>
+        <ul>
+          <li *ngFor="let ingredient of selectedIngredients">{{ recipeForm.get('isSpanishMode')?.value ? ingredient.spanishName : ingredient.name }}</li>
+        </ul>
+        <p>{{ translations[recipeForm.get('isSpanishMode')?.value ? 'es' : 'en'].steps }}</p>
+        <ol>
+        
+          <ng-container *ngIf="recipeForm.get('isSpanishMode')?.value; else englishSteps">
+            <li *ngFor="let step of translatedSteps">{{ step }}</li>
+          </ng-container>
+          <ng-template #englishSteps>
+            <li *ngFor="let step of getRecipeSteps(generatedRecipe).steps">{{ step }}</li>
+          </ng-template>
+          
+          
+      </ol> 
+    </div>
+      <div *ngIf="recipeGenerated" class="badge-container">
+        <mat-badge *ngIf="recipeGenerated" matBadgeColor="warn" [matBadge]="recipetemperature" 
+        class="tempbadge" matBadgeSize="large"></mat-badge>
+        
+        <div *ngIf="recipeGenerated">
+          <mat-badge [ngClass]="{'high': getLevelBadgeText() === 'HIGH', 'med': getLevelBadgeText() === 'MED', 'low': getLevelBadgeText() === 'LOW'}"
+                  class="new-badge" matBadgeSize="large" matBadge="{{getLevelBadgeText()}}">
+             
+          </mat-badge>
+      </div>
+        <div class="timer-badge">
+          <div *ngIf="recipeGenerated" matBadge="{{getTimerBadgeText()}}" matBadgePosition="above before" class="custom-badge">
+            <img *ngIf="time" [src]="getImagePath()" alt="Recipe Timer" />
+          </div>
+        </div>
+  
+      </div>
+
+
+
+      </mat-card-content>
+    
+  </mat-card> 
+
+
+
+
+
+
+</div>

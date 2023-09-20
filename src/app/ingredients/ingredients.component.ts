@@ -1,5 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { IngredientService } from '../ingredient.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { BehaviorSubject, MonoTypeOperatorFunction, Observable, Subject, catchError, combineLatest, concatMap, debounceTime, delay, distinctUntilChanged, exhaustMap, filter, map, mergeMap, of, scan, startWith, switchMap, take, takeWhile, tap } from 'rxjs';
+import { takeWhileInclusive } from 'rxjs-take-while-inclusive';
+import { RecipeService } from '../recipe.service';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { ThisReceiver } from '@angular/compiler';
+
+
+
+
+export interface ILookup {
+  Ingrediente: string;
+  Frecuencia: number;
+    Lematizado: string;
+    T_Marian: string;
+    selected: boolean;
+}
+
+
 
 @Component({
   selector: 'app-ingredients',
@@ -7,37 +26,169 @@ import { IngredientService } from '../ingredient.service';
   styleUrls: ['./ingredients.component.css'],
 })
 export class IngredientsComponent implements OnInit {
-  searchTerm: string = '';
-  ingredients: string[] = [];
-  selectedIngredient: string = '';
-  searchResults: string[] = []; // Agrega esta línea
+  @ViewChild(MatAutocompleteTrigger)
+  autocompleteTrigger!: MatAutocompleteTrigger;
+  @ViewChild('auto') autocomplete: ElementRef | undefined;
 
-  constructor(private ingredientService: IngredientService) {}
+  @Input() isSpanishMode: boolean= false; // Define la propiedad de entrada
+
+  ingredientes: any[] = [];
+
+  constructor(private ingredientService: IngredientService, 
+              private recipeService: RecipeService) {}
+
+  translations = {
+    en: {
+      selectIngredients: 'Select Ingredients(max 4)',
+      
+    },
+    es: {
+      selectIngredients: 'Seleccionar ingredientes(max 4)',
+ 
+    },
+  };
+
+  filteredLookups$: Observable<{ ingredientes: any[]; }> | undefined ;
+  lookups: ILookup[] = [];
+  private nextPage$ = new Subject();
+  private _onDestroy = new Subject();
+  searchText = new FormControl()
+  currentPage = 1;
+  pageSize = 30;
+
+  totalItems: number | undefined;
+  finalPage: number | undefined;
+
+  allIngredients: any[] = []; // Almacena todos los ingredientes de todas las páginas
+
+  
 
   ngOnInit() {
-    // Llamamos al método para obtener ingredientes cuando se inicializa el componente
-    this.getIngredients();
-  }
+ 
+    const filter$ = this.searchText.valueChanges.pipe(
+      startWith(''),
+      debounceTime(200),
+      distinctUntilChanged(),
+      filter((q) => typeof q === 'string')
+    );
+  
+    filter$.subscribe((filter) => {
+    });
+  
 
-  // Método para obtener ingredientes desde el servicio
-  getIngredients() {
-    const pageSize = 30; // Tamaño de página deseado
-    this.ingredientService.getIngredients(pageSize).subscribe((data) => {
-      this.ingredients = data;
+    this.filteredLookups$ = filter$.pipe(
+      switchMap((filter) => {
+        let currentPage = 1;
+        return this.nextPage$.pipe(
+          startWith(currentPage),
+          switchMap((_) =>
+            this.recipeService.getIngredients(
+              currentPage,
+              this.pageSize,
+              filter,
+              this.isSpanishMode
+            )
+          ),
+          tap((data) => {
+            currentPage++;
+            this.totalItems = data.total_items;
+            if (this.totalItems !== undefined) {
+              this.finalPage = Math.ceil(this.totalItems / this.pageSize);
+            }
+          }),
+          scan((acc, data) => [...acc, ...data.ingredientes], [] as any[]),
+          startWith([]),
+          // map((ingredientes) => ({ ingredientes }))
+          map((ingredientes) => {
+            const newIngredients = ingredientes.filter(ing => !this.allIngredients.includes(ing));
+            this.allIngredients = [...this.allIngredients, ...newIngredients];
+            return { ingredientes: newIngredients };
+          })
+        );
+      })
+    );
+
+    this.filteredLookups$?.subscribe((data) => {
     });
   }
+  
+  displayWith(lookup: ILookup): string {
+    return lookup ? lookup.Ingrediente : '';
+  }
+  
+  onScroll() {
 
-  // Método para manejar la selección de un ingrediente
-  onIngredientSelected(ingredient: string) {
-    this.selectedIngredient = ingredient;
+    if (this.totalItems != undefined && this.currentPage * this.pageSize < this.totalItems) {
+    //   if (this.finalPage!== undefined && this.currentPage < this.finalPage) {  
+      this.nextPage$.next(this.currentPage);
+    }
+  
+    // Abre el panel de autocompletar
+    this.autocompleteTrigger.openPanel();
+  }
+  
+  
+  ngOnDestroy() {
+    this.nextPage$.complete();
   }
 
-  // Método para manejar cambios en el campo de búsqueda
-  onInputChange(event: Event) {
-    this.searchTerm = (event.target as HTMLInputElement).value;
-    // Aquí puedes realizar acciones adicionales si es necesario
-  }
 
-  // Otros métodos del componente para interactuar con el servicio
+
+
+addSelectedIngredient(event: MatAutocompleteSelectedEvent): void {
+  const selectedIngredientName = event.option.viewValue;
+  const selectedIngredient = this.allIngredients.find((ingredient) =>
+    this.isSpanishMode
+      ? ingredient.T_Marian === selectedIngredientName
+      : ingredient.Ingrediente === selectedIngredientName
+  );
+
+  // if (selectedIngredient) {
+  //   this.ingredientService.selectedIngredients$.pipe(take(1)).subscribe((selectedIngredients) => {
+  //     const isIngredientAlreadySelected = selectedIngredients.some((ingredient) =>
+  //       this.isSpanishMode
+  //         ? ingredient.spanishName === selectedIngredient.T_Marian
+  //         : ingredient.name === selectedIngredient.Ingrediente
+  //     );
+  if (selectedIngredient) {
+    this.ingredientService.selectedIngredients$.pipe(take(1)).subscribe((selectedIngredients) => {
+      // Verificar si ya se han seleccionado 4 ingredientes
+      if (selectedIngredients.length >= 4) {
+        console.log('Ya se han seleccionado 4 ingredientes. No se pueden agregar más.');
+        return;
+      }
+
+      const isIngredientAlreadySelected = selectedIngredients.some((ingredient) =>
+        this.isSpanishMode
+          ? ingredient.spanishName === selectedIngredient.T_Marian
+          : ingredient.name === selectedIngredient.Ingrediente
+      );
+
+      if (!isIngredientAlreadySelected) {
+        // Agregar el ingrediente al servicio
+        this.ingredientService.addIngredient({
+          name: selectedIngredient.Ingrediente,
+          spanishName: selectedIngredient.T_Marian,
+          selected: true,
+        });
+
+        // Limpiar el campo de búsqueda
+        this.searchText.setValue('');
+        this.autocompleteTrigger.updatePosition();
+      } else {
+        console.log('El ingrediente ya está seleccionado.');
+      }
+    });
+  }
 }
+onEnterPressed(event: Event): void {
+  // Prevenir el comportamiento predeterminado del Enter
+  event.preventDefault();
+  // Agregar cualquier otra lógica que desees ejecutar cuando se presiona Enter
+}
+
+
+}
+
+  
 

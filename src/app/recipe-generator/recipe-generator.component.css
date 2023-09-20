@@ -1,27 +1,71 @@
+
 .wide-input {
-    width: 500px;
+    width: 100%;
     align-items: center;
   }
 
   .multi-line-chips {
-    max-width: 500px;
+    max-width: 95%;
     flex-wrap: wrap;
   }
 
   .full-width {
-    width: 500px;
+    width: 95%;
     margin-top: 15px;
     align-items: center;
   }
-
-  .temperature {
-    
-    margin-top: 20px;
-   
+  .language-toggle {
+    margin-bottom: 20px; /* Espaciado hacia abajo para el toggle */
+    display: flex;
+    align-items: center; /* Alinea verticalmente el contenido */
+    justify-content: flex-end; /* Alinea el contenido a la derecha */
   }
+  .bold-label {
+    font-weight: bold;
+    color: #673ab7;
+  }
+  
+  .slide-toggle-right {
+    /* Puedes ajustar el espacio entre el toggle y la etiqueta aquí */
+    margin-right: 10px; /* Agrega espacio entre la etiqueta y el toggle */
+    
+  }
+  
+
+ 
+
+/* En tu archivo de estilos personalizado (styles.css o styles.scss) */
+.selected-ingredient {
+  color: #673ab7; /* Cambia el fondo */
+  font-weight: bold; /* Cambia el estilo de fuente */
+  /* Agrega otros estilos según tus preferencias */
+}
+
+
+  .ingredient-chip {
+    background-color: #FFECB3 !important; /* Color de fondo para los chips de temperatura */
+    color: #000; /* Color del texto para los chips de temperatura */
+    border: 2px solid #FFECB3; /* Contorno para los chips de temperatura */
+    border-radius: 5px;
+    border-color: #e0e0e0;
+  }
+  
+  .form-group.temperature {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .form-group.temperature label {
+    margin-bottom: 10px; /* Ajusta la cantidad de espacio deseada */
+  }
+  
 
   .equal-width {
-    flex: 1;
+    width: 90px; /* Ajusta el ancho automáticamente según el contenido */
   }
 
   .centered-label {
@@ -40,11 +84,7 @@
     align-items: center;
   }
 
-  .recipe-card {
-    width: 500px; /* Ancho deseado */
-    margin-top: 20px; /* Para centrar horizontalmente en la página */
-    /* Otros estilos personalizados según tus preferencias */
-  }
+ 
 
   /* Estilos CSS para cada nivel de temperatura */
  .temperature-lightest {
@@ -81,12 +121,14 @@
   font-family: 'Roboto', sans-serif; /* Fuente de Material Design */
   font-size: 2.0rem; /* Tamaño del texto */
   color: #ff5733; /* Color naranja para el título */
-  text-align: center; /* Centrar el texto */
+  text-align: center  !important; /* Centrar el texto */
   margin-bottom: 20px; /* Espacio inferior */
   animation: fadeInUp 1s ease-in-out; /* Animación de entrada */
 
   /* Agrega sombra para dar profundidad */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+
+  
 }
 
 /* Animación fadeInUp */
@@ -101,11 +143,137 @@
   }
 }
 
-.container {
-  max-width: 1200px; /* Tamaño máximo del container */
-  margin: 0 auto; /* Centra horizontalmente */
+.recipe-card {
+  width: 100%; /* Ancho deseado */
+  margin-top: 20px; /* Para centrar horizontalmente en la página */
+  display: flex;
+ justify-content: space-between;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.badge-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.tempbadge  { 
+  /*margin-bottom: 20px;  Ajusta este valor según tus necesidades */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+.new-badge  { 
+ 
+  position: relative; /* Agrega esta línea para permitir el posicionamiento relativo */
+  margin-top: 15px;
+ /* margin-bottom: 60px;  Ajusta este valor según tus necesidades */
+  margin-right: 10px;
+  display: inline-flex; /* Muestra los elementos en línea y flexibles */
+  align-items: center; /* Alinea verticalmente los elementos en el centro */
+}
+
+.custom-badge .mat-badge-content {
+  width: 50px;
+  height: 25px;
+  border-radius: 8px;
+  border: 1px solid darkgrey;
+  font-size: 10px;
+  background: white;
+  color: black;
+  display: flex;  
+  align-items: center;  
+  justify-content: center;  
+  margin-left:-30px;
+  margin-top:15px;
+ 
+}
+.tempbadge .mat-badge-content {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  background: white;
+  border: 2px solid red;
+  color:red;
+}
+
+.timer-badge{
+  margin-top: 70px;
+  margin-right: -15px;
+  /* margin-right: 10px; */
+  display: flex;
+  align-items: flex-end;
+
+ 
+}
+
+.new-badge .mat-badge-content {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 8px;
+  font-size: 12px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.high .mat-badge-content {
+  background-color: #f05829;
+}
+
+.med .mat-badge-content {
+  background-color: #faaf3e;
+}
+
+.low .mat-badge-content {
+  background-color: #7bc35f;
+}
+
+
+
+ .box-container {
+  padding-top: 150px;
+  position: relative;
+  max-width: 50%;  /*Tamaño máximo del container */
+  margin: 100px auto 0; /* 20px de margen superior, centrado horizontalmente */
   padding: 20px; /* Espacio interno */
   border-radius: 10px; /* Bordes redondeados */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
   background-color: #fbf4dc; /* Color de fondo */
+} 
+
+
+.form-container {
+  /* Agregamos flexbox para organizar elementos en fila */
+  display: flex;
+  flex-direction: column;
 }
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 100vh;
+  padding-top: 150px;
+}
+.info-icon {
+  position: absolute;
+  top: 5px !important;
+  right: 5px !important;
+  color: gray;
+}
+@media (max-width: 600px) {
+  .recipetext {
+      margin-bottom: 20px;
+  }
+}
+
+

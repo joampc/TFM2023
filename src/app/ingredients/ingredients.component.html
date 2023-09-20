@@ -1,22 +1,16 @@
-<div class="container">
-  <h2>Ingredients</h2>
-  <div class="form-group">
-    <label for="search">Search Ingredients:</label>
-    <input
-      id="search"
-      type="text"
-      class="form-control"
-      [(ngModel)]="searchTerm"
-      (input)="onInputChange($event)"
-    />
-  </div>
-  <ul class="ingredient-list">
-    <li *ngFor="let ingredient of searchResults">
-      <a (click)="onIngredientSelected(ingredient)">{{ ingredient }}</a>
-    </li>
-  </ul>
-  <div class="selected-ingredient">
-    <h3>Selected Ingredient:</h3>
-    <p>{{ selectedIngredient }}</p>
-  </div>
+
+<div>
+  <mat-form-field>
+    <mat-label>{{ translations[isSpanishMode ? 'es' : 'en'].selectIngredients }}</mat-label>
+    <input matInput type="text" placeholder="" #text aria-label="Number" 
+    [formControl]="searchText" matInput [matAutocomplete]="auto"  (keydown.enter)="onEnterPressed($event)">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayWith" showPanel="true" 
+    (optionSelected)="addSelectedIngredient($event)"  (optionsScroll)="onScroll()">
+      <ng-container *ngIf="(filteredLookups$ | async)?.ingredientes as ingredientes">
+        <mat-option *ngFor="let option of ingredientes" [value]="option">
+          {{ isSpanishMode?  option.T_Marian : option.Ingrediente }}
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
 </div>

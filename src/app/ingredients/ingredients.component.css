@@ -1,4 +1,4 @@
-.ingredients-container {
+/* .ingredients-container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -45,4 +45,21 @@
   li:hover {
     color: #007bff;
   }
-  
+   */
+
+   /* Estilo para el contenedor de autocompletado */
+/* Estilo para el campo de entrada */
+.mat-form-field {
+  width: 100%;  /* Ancho completo */
+  display:block;
+}
+
+/* Sobrescribe el estilo para el campo de entrada */
+.mat-mdc-form-field {
+  display: block !important;  /* Cambia a display: block */
+}
+/* Estilo para el panel de autocompletado */
+.mat-autocomplete-panel {
+  width: 100% !important;  /* Ancho completo */
+}
+

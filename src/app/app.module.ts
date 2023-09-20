@@ -7,6 +7,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 
+import { MatBadgeModule } from '@angular/material/badge';
+
+
 import { MatIconModule } from '@angular/material/icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,13 +22,26 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {MatButtonModule} from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {OptionsScrollDirective} from './options-scroll.directive';
+import { ProjectInfoComponent } from './project-info/project-info.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RecipeGeneratorComponent,
-    IngredientsComponent
+    IngredientsComponent,
+    OptionsScrollDirective,
+    ProjectInfoComponent,
+    
+    
+   
   ],
   imports: [
     BrowserModule,
@@ -43,7 +59,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatBadgeModule,
+    MatPaginatorModule,
+    MatSlideToggleModule,
+    InfiniteScrollModule,
+    MatDialogModule
+
+    
+    
     
     
 
