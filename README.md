@@ -98,9 +98,9 @@ Si deseas contribuir a este proyecto, ¡eres bienvenido! Puedes seguir estos pas
 
 ## Equipo
 
-- Nombre del miembro 1 ([@miembro1](https://github.com/miembro1))
-- Nombre del miembro 2 ([@miembro2](https://github.com/miembro2))
-- Nombre del miembro 3 ([@miembro3](https://github.com/miembro3))
+- Paola Moreno (https://github.com/Sandmorh)
+- Juan Puerta ([@miembro2](https://github.com/miembro2))
+- Gema Blanco ([@miembro3](https://github.com/miembro3))
 
 ## Licencia
 
