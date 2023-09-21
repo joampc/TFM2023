@@ -18,8 +18,8 @@ Aqui podrás encontrar el codigo de la aplicacion fastApi y el dockerfile para l
 ## Equipo
 
 - Paola Moreno (https://github.com/Sandmorh)
-- Juan Puerta linkedin.com/in/juan-puerta-abad-79328a217
-- Gema Blanco ([@miembro3](https://github.com/miembro3))
+- Juan Puerta https://linkedin.com/in/juan-puerta-abad-79328a217
+- Gema Blanco
 - Joanna Pomés (https://github.com/joampc)
 
 ## Licencia
