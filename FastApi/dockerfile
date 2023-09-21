@@ -1,0 +1,30 @@
+# Utiliza la imagen base de FastAPI con Python 3.8
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.8
+
+# Instala TensorFlow y otras dependencias
+RUN pip install --no-cache-dir tensorflow
+
+# Instala SentencePiece
+RUN pip install sentencepiece
+
+# Instala las dependencias requeridas para Transformers y PyTorch
+RUN pip install transformers torch
+
+# Instala las dependencias para googletrans
+RUN pip install googletrans==4.0.0-rc1
+
+# Crea un directorio /app dentro del contenedor
+WORKDIR /app
+
+# Copia los archivos locales al directorio /app en el contenedor
+COPY app.py .
+COPY recipe_gen_model.h5 .
+COPY tokenizer.pkl .
+COPY ingredient_list.json .
+COPY ingredient_translated.json .
+
+# Expone el puerto 80 para la aplicación FastAPI
+EXPOSE 80
+
+# Define el comando para ejecutar la aplicación FastAPI
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
