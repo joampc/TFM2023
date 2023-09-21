@@ -11,9 +11,9 @@ Este repositorio contiene el trabajo de equipo desarrollado para el Trabajo de F
 Aqui pueden encontrar los notebooks de analisis de datos, scrapping de la web de Alimentos, entrenamiento de modelos previos, el entrenamiento de nuestro modelo final, así como el dataset  utilizado
 
 Puedes probar nuestro modelo en la web https://tfm-recipe-generator.netlify.app/generator. Este repositorio incluye ademas  el codigo de esta web desarrollada en angular y  alojada en servicios web gratuitos (Netlify). Hemos creado una API (fastApi) que da acceso al modelo entrenado yque se ha alojado en un contenedor  en la Nube de Google (GCP). Todo el proyecto se sostiene sobre servicios gratuitos, por lo que debido a las limitaciones de uso que definen los servicios en la nube, puede que no esté disponible en algún momento.
-Aqui podrás encontrar el codigo de la aplicacion fastApi y el dockerfile para la creación del container
+Aqui podrás encontrar el codigo de la aplicacion fastApi y el dockerfile para la creación del container.
 
-
+El modelo esta entrenado con un dataset en inglés, pero la web permite que se visualice la receta en español usando la librería Python "googletrans", también se puede traducir las recetas usando un modelo preentrenado Marian de Hugging Face https://huggingface.co/docs/transformers/model_doc/marian, para lo cual se puede seleccionar la opción en los settings de la web
 
 ## Equipo
 
