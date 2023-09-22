@@ -12,15 +12,16 @@
     <main>
         <p>Esta aplicación corresponde al Trabajo de Fin de Master de:</p>
         <ul>
-            <li>Juan</li>
-            <li>Paola</li>
-            <li>Gema</li>
-            <li>Joanna</li>
+            <li><a href="https://www.linkedin.com/in/juan-puerta-abad-79328a217/">Juan Puerta</a></li>
+            <li><a href="https://www.linkedin.com/in/sandra-paola-moreno-herrera-ba6431b2/">Paola Moreno</a></li>
+            <li>Gema Blanco</li>
+            <li><a href="https://www.linkedin.com/in/joanna-pomes">Joanna Pomés</a></li>
         </ul>
-        <p>Este proyecto representa la construcción y entrenamiento de un modelo de lenguaje que utiliza una capa de embedding seguida de una capa LSTM y una capa densa para generar secuencias de texto. El objetivo puede ser generar texto autónomamente o predecir la siguiente palabra en una secuencia de texto dada. El modelo se entrena utilizando el optimizador Adam y se mide su desempeño utilizando la pérdida de entropía cruzada categórica dispersa y la métrica de precisión.</p>
-        <p>Esta web está alojada en servicios web gratuitos (Netlify) y el contenedor con la API que da acceso al modelo entrenado se encuentra alojado en la Nube de Google (GCP). Todo el proyecto se sostiene sobre servicios gratuitos, por lo que debido a las limitaciones de uso que definen los servicios en la nube, puede que no esté disponible en algún momento.</p>
+        <p>El objetivo del trabajo es la generación de un modelo cuyo output sea capaz de visualizar una nueva receta y dotarla de sentido y coherencia. El modelo se entrena utilizando la pérdida de entropía cruzada categórica dispersa y la métrica de precisión.</p>
+        <p>Esta web está alojada en servicios web gratuitos (Netlify) y el contenedor con la API que da acceso al modelo entrenado se encuentra alojado en la Nube de Google (GCP) y en AWS, ambos en capa gratuita. Puedes elegir acceder al API alojada en cualquiera de estos servicios según tu preferencia o la disponibilidad del servicio.</p>
+        <p>Para la traducción de texto, actualmente se utiliza la librería Python "googletrans" (from googletrans import Translator). Sin embargo, es importante tener en cuenta que esta opción podría no estar disponible en algún momento. Por lo tanto, se ha incorporado la posibilidad de utilizar un modelo preentrenado de Hugging Face Marian Model. Puedes seleccionar esta opción en los ajustes de la aplicación. Más información sobre el modelo Marian de Hugging Face se encuentra disponible en <a href="https://huggingface.co/docs/transformers/model_doc/marian">este enlace</a>.</p>
         <p>Todo el código, tanto de esta web, la aplicación FastAPI que utilizamos dentro del contenedor y los notebooks con el procesamiento de datos y el entrenamiento del modelo, se pueden encontrar en:</p>
-        <a href="https://github.com/tuusuario/tuproyecto">github.com/tuusuario/tuproyecto</a>
+        <a href="https://github.com/joampc/TFM2023">Repo de Git</a>
     </main>
 </body>
 </html>

@@ -17,12 +17,13 @@ export class SettingsService {
       }
     
       getUseAWS() {
+       // console.log('Obteniendo valor de useAWS:', this.useAWSSubject.value); // Agrega este console.log
         return this.useAWSSubject.asObservable();
       }
     
       // Métodos para actualizar la configuración y notificar cambios
-      updateSettings( useMarianModel: boolean, useAWS: boolean) {
-        
+      updateSettings(useMarianModel: boolean, useAWS: boolean) {
+        //console.log('Actualizando valor de useAWS a:', useAWS); // Agrega este console.log
         this.useMarianModelSubject.next(useMarianModel);
         this.useAWSSubject.next(useAWS);
       }
